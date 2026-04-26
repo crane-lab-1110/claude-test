@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Tetris Tests</title>
+  <style>
+    body { font-family: monospace; background: #1a1a2e; color: #e0e0e0; padding: 24px; }
+    h1 { color: #fff; margin-bottom: 16px; }
+    .suite { margin-bottom: 24px; }
+    .suite-name { font-size: 14px; letter-spacing: 2px; color: #888; margin-bottom: 8px; }
+    .test { padding: 4px 0; display: flex; gap: 12px; }
+    .pass { color: #00f000; }
+    .fail { color: #f00000; }
+    .error-msg { font-size: 12px; color: #f06060; margin-left: 24px; }
+    #summary { font-size: 18px; margin-top: 16px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Tetris Unit Tests</h1>
+  <div id="output"></div>
+  <div id="summary"></div>
+
+  <script type="module">
+    import { boardTests } from './board.test.js';
+    import { pieceTests } from './piece.test.js';
+
+    const suites = [
+      { name: 'BOARD', tests: boardTests },
+      { name: 'PIECE', tests: pieceTests },
+    ];
+
+    const output = document.getElementById('output');
+    const summary = document.getElementById('summary');
+    let passed = 0, failed = 0;
+
+    for (const suite of suites) {
+      const div = document.createElement('div');
+      div.className = 'suite';
+      div.innerHTML = `<div class="suite-name">${suite.name}</div>`;
+
+      for (const { name, fn } of suite.tests) {
+        const row = document.createElement('div');
+        row.className = 'test';
+        try {
+          fn();
+          row.innerHTML = `<span class="pass">✓</span><span>${name}</span>`;
+          passed++;
+        } catch (e) {
+          row.innerHTML = `<span class="fail">✗</span><span>${name}</span>`;
+          const err = document.createElement('div');
+          err.className = 'error-msg';
+          err.textContent = e.message;
+          row.appendChild(err);
+          failed++;
+        }
+        div.appendChild(row);
+      }
+      output.appendChild(div);
+    }
+
+    const total = passed + failed;
+    summary.style.color = failed === 0 ? '#00f000' : '#f00000';
+    summary.textContent = `${passed} / ${total} passed${failed > 0 ? ` — ${failed} failed` : ' — all tests passed!'}`;
+  </script>
+</body>
+</html>

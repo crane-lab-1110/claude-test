@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tetris</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <div id="game-area">
+      <canvas id="game-canvas"></canvas>
+    </div>
+    <div id="sidebar">
+      <div class="panel">
+        <div class="panel-label">NEXT</div>
+        <canvas id="next-canvas"></canvas>
+      </div>
+      <div class="panel">
+        <div class="panel-label">SCORE</div>
+        <div id="score">0</div>
+      </div>
+      <div class="panel">
+        <div class="panel-label">LEVEL</div>
+        <div id="level">1</div>
+      </div>
+      <div class="panel">
+        <div class="panel-label">LINES</div>
+        <div id="lines">0</div>
+      </div>
+      <div class="panel" id="controls-panel">
+        <div class="panel-label">CONTROLS</div>
+        <div class="controls-list">
+          <div>← → Move</div>
+          <div>↑ Rotate CW</div>
+          <div>Z Rotate CCW</div>
+          <div>↓ Soft drop</div>
+          <div>Space Hard drop</div>
+          <div>P Pause</div>
+          <div>R Restart</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="overlay" class="hidden">
+    <div id="overlay-content">
+      <div id="overlay-title"></div>
+      <div id="overlay-score"></div>
+      <div id="overlay-hint"></div>
+    </div>
+  </div>
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>
