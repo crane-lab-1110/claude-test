@@ -11,20 +11,18 @@ const KEY_MAP = {
   KeyR:       'RESTART',
 };
 
-// Actions that support DAS (held key auto-repeat)
 const DAS_ACTIONS = new Set(['MOVE_LEFT', 'MOVE_RIGHT', 'SOFT_DROP']);
 
 export class InputHandler {
   constructor(dispatch) {
     this._dispatch = dispatch;
-    this._held = new Map(); // action -> { dasTimer, repeatTimer }
+    this._held = new Map();
 
     this._onKeyDown = this._onKeyDown.bind(this);
     this._onKeyUp   = this._onKeyUp.bind(this);
     window.addEventListener('keydown', this._onKeyDown);
     window.addEventListener('keyup',   this._onKeyUp);
 
-    // DAS loop runs on its own rAF to keep timing independent of game loop
     this._dasLoop = this._dasLoop.bind(this);
     this._lastDasTs = null;
     requestAnimationFrame(this._dasLoop);
@@ -35,15 +33,31 @@ export class InputHandler {
     window.removeEventListener('keyup',   this._onKeyUp);
   }
 
+  // Wire a touch button element to a game action (with DAS support for movement).
+  addTouchButton(el, action) {
+    el.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      el.classList.add('pressed');
+      this._dispatch(action);
+      if (DAS_ACTIONS.has(action) && !this._held.has(action)) {
+        this._held.set(action, { dasTimer: 0, repeating: false });
+      }
+    }, { passive: false });
+
+    const release = () => {
+      el.classList.remove('pressed');
+      this._held.delete(action);
+    };
+    el.addEventListener('touchend',    release, { passive: true });
+    el.addEventListener('touchcancel', release, { passive: true });
+  }
+
   _onKeyDown(e) {
     const action = KEY_MAP[e.code];
     if (!action) return;
     e.preventDefault();
-
-    if (e.repeat) return; // handled by DAS loop
-
+    if (e.repeat) return;
     this._dispatch(action);
-
     if (DAS_ACTIONS.has(action) && !this._held.has(action)) {
       this._held.set(action, { dasTimer: 0, repeating: false });
     }

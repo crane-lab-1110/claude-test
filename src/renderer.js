@@ -1,6 +1,5 @@
-import { BOARD_COLS, BOARD_ROWS, CELL_SIZE, COLORS } from './constants.js';
+import { BOARD_COLS, BOARD_ROWS, CELL_SIZE, NEXT_CELL, COLORS } from './constants.js';
 
-const NEXT_CELL = 24;
 const NEXT_GRID = 4;
 
 export class Renderer {

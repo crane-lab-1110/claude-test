@@ -1,6 +1,20 @@
 export const BOARD_COLS = 10;
 export const BOARD_ROWS = 20;
-export const CELL_SIZE = 32;
+
+// Layout constants (must match CSS)
+const _HEADER_H   = 60;
+const _CONTROLS_H = 128;
+const _GAPS       = 16; // 8px above + 8px below canvas
+const _H_PAD      = 8;  // total horizontal padding
+
+const _availH = window.innerHeight - _HEADER_H - _CONTROLS_H - _GAPS;
+const _availW = window.innerWidth  - _H_PAD;
+export const CELL_SIZE = Math.max(20, Math.min(
+  Math.floor(_availH / BOARD_ROWS),
+  Math.floor(_availW / BOARD_COLS),
+));
+
+export const NEXT_CELL = 12; // size of each cell in the next-piece preview
 
 // Tetromino definitions: cells are 4x4 matrices (rotation state 0)
 // Color indices map to COLORS array (1-based, 0 = empty)
