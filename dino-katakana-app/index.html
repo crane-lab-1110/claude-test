@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0d1a0d">
+  <title>きょうりゅうカタカナトレーニング</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===== タイトル画面 ===== -->
+  <div id="screen-title" class="screen active">
+    <div class="title-bg">
+      <div class="title-decos">
+        <span class="deco-item deco-volcano">🌋</span>
+        <span class="deco-item deco-leaf">🌿</span>
+      </div>
+      <div class="title-dino">🦖</div>
+      <h1 class="app-title">きょうりゅう<br>カタカナ<br>トレーニング</h1>
+      <div class="title-buttons">
+        <button class="btn btn-primary" onclick="showStageSelect()">▶ スタート</button>
+        <button class="btn btn-secondary" onclick="showZukan()">📖 ずかん</button>
+      </div>
+      <div class="deco-fossils">🦴 &nbsp; 🦴 &nbsp; 🦴</div>
+    </div>
+  </div>
+
+  <!-- ===== ステージ選択画面 ===== -->
+  <div id="screen-stage-select" class="screen">
+    <div class="screen-header">
+      <button class="btn-back" onclick="showTitle()">◀ もどる</button>
+      <h2>ステージをえらぼう</h2>
+    </div>
+    <div id="stage-grid" class="stage-grid"></div>
+    <div class="review-section">
+      <button class="btn btn-review" id="review-btn" onclick="showReview()" style="display:none">
+        🔄 ふくしゅう
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== 難易度選択画面 ===== -->
+  <div id="screen-difficulty" class="screen">
+    <div class="screen-header">
+      <button class="btn-back" onclick="showStageSelect()">◀ もどる</button>
+      <h2 id="difficulty-stage-name">ステージ名</h2>
+    </div>
+    <p class="difficulty-hint">むずかしさをえらんでね！</p>
+    <div class="difficulty-options">
+      <button class="btn-mode" onclick="startQuiz('tamago')">
+        <span class="mode-icon">🥚</span>
+        <span class="mode-name">たまごモード</span>
+        <span class="mode-desc">カタカナをみて おなじものをえらぼう</span>
+      </button>
+      <button class="btn-mode" onclick="startQuiz('kodomo')">
+        <span class="mode-icon">🦕</span>
+        <span class="mode-name">こども恐竜モード</span>
+        <span class="mode-desc">よみかたからカタカナをえらぼう</span>
+      </button>
+      <button class="btn-mode" onclick="startQuiz('tsuyoi')">
+        <span class="mode-icon">🦖</span>
+        <span class="mode-name">つよい恐竜モード</span>
+        <span class="mode-desc">きょうりゅうのことばからえらぼう</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== クイズ画面 ===== -->
+  <div id="screen-quiz" class="screen">
+    <div class="quiz-header">
+      <button class="btn-close" onclick="confirmQuit()">✕</button>
+      <div class="progress-text">
+        <span id="q-current">1</span> / <span id="q-total">5</span>
+      </div>
+      <div class="score-display">⭐ <span id="q-score">0</span></div>
+    </div>
+    <div class="progress-bar">
+      <div id="progress-fill" class="progress-fill"></div>
+    </div>
+    <div id="quiz-content" class="quiz-content">
+      <div id="quiz-question" class="quiz-question"></div>
+      <div id="quiz-char-display" class="quiz-char-display"></div>
+      <div id="quiz-choices" class="quiz-choices"></div>
+      <div id="quiz-feedback" class="quiz-feedback"></div>
+    </div>
+  </div>
+
+  <!-- ===== 結果画面 ===== -->
+  <div id="screen-result" class="screen">
+    <div class="result-content">
+      <div id="result-dino" class="result-dino"></div>
+      <h2 id="result-title" class="result-title"></h2>
+      <div id="result-score" class="result-score"></div>
+      <div id="result-card" class="result-card"></div>
+      <div class="result-buttons">
+        <button class="btn btn-primary" onclick="retryQuiz()">🔁 もういちど</button>
+        <button class="btn btn-secondary" onclick="showStageSelect()">📋 ステージにもどる</button>
+        <button class="btn btn-outline" onclick="showZukan()">📖 ずかんをみる</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 図鑑画面 ===== -->
+  <div id="screen-zukan" class="screen">
+    <div class="screen-header">
+      <button class="btn-back" onclick="showTitle()">◀ もどる</button>
+      <h2>きょうりゅうずかん</h2>
+    </div>
+    <p id="zukan-count" class="zukan-count"></p>
+    <div id="zukan-grid" class="zukan-grid"></div>
+  </div>
+
+  <!-- ===== 図鑑詳細オーバーレイ ===== -->
+  <div id="zukan-detail" class="zukan-detail-overlay" style="display:none" onclick="closeZukanDetail()">
+    <div class="zukan-detail-box" onclick="event.stopPropagation()">
+      <div id="zukan-detail-content"></div>
+      <button class="btn btn-secondary" onclick="closeZukanDetail()">とじる</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
